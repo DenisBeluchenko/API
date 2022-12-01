@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,18 +24,20 @@ public class Main {
                 .filter(person -> person.getAge() > 18)
                 .map(person -> person.getFamily())
                 .collect(Collectors.toList());
-        List<Person> workMan = persons.stream()
+        List<Person> man = persons.stream()
                 .filter(person -> person.getAge() >= 18)
                 .filter(person -> person.getAge() <= 65)
                 .filter(person -> person.getSex() == Sex.MAN)
                 .filter(person -> person.getEducation() == Education.HIGHER)
-                .sorted(Comparator.comparing(person -> person.getFamily()))
                 .collect(Collectors.toList());
-        List<Person> workWoman = persons.stream()
+        List<Person> woman = persons.stream()
                 .filter(person -> person.getAge() >= 18)
                 .filter(person -> person.getAge() <= 60)
                 .filter(person -> person.getSex() == Sex.WOMAN)
                 .filter(person -> person.getEducation() == Education.HIGHER)
+                .collect(Collectors.toList());
+        List<Person> work= Stream.of(man,woman)
+                .flatMap(person -> person.stream())
                 .sorted(Comparator.comparing(person -> person.getFamily()))
                 .collect(Collectors.toList());
     }
